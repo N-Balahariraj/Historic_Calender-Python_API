@@ -302,18 +302,21 @@
         overflow-y: auto;
         display: flex;
         flex-direction: column;
+        /* flex-wrap: wrap; */
         padding-left: 4px;
       }
       .events .event {
         position: relative;
         width: 95%;
-        min-height: 70px;
-        display: flex;
+        min-height: auto;
+        /* display: flex;
         justify-content: center;
-        flex-direction: column;
-        gap: 5px;
-        padding: 0 20px;
+        flex-direction: column; 
+        flex-wrap: wrap;*/
+        gap: 2%;
+        padding: 2% 20px;
         padding-left: 50px;
+        margin: 2%;
         color: #fff;
         background: linear-gradient(90deg, #3f4458, transparent);
         cursor: pointer;
@@ -334,6 +337,7 @@
         font-size: 1rem;
         font-weight: 400;
         margin-left: 20px;
+        margin-bottom: 2%;
       }
       .events .event i {
         color: var(--primary-clr);
