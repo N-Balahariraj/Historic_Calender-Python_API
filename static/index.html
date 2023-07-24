@@ -795,17 +795,30 @@
 
       initCalendar();
 
+      var TodayEvents = [];
+
       function fetchData(day, mon) {
         // Replace 7 with the month you want to pass to the Flask server.
 
         fetch(`/get_data/${day}/${mon}`)
           .then((response) => response.json())
           .then((data) => {
-            console.log("Data from Flask:", data);
+            //console.log("Data from Flask:", data);
+
+            showHistroy(data);
+            updateEvents(data);
           })
           .catch((error) => {
             console.error("Error:", error);
           });
+      }
+
+      function showHistroy(HistoryData) {
+        HistoryData.forEach((historyEvent) => {
+          console.log(
+            `Events: ${historyEvent.event}  happend on ${historyEvent.year}`
+          );
+        });
       }
       //function to add active on day
       function addListner() {
@@ -903,32 +916,25 @@
         eventDay.innerHTML = dayName;
         let data_day = date;
         let data_mon = month + 1;
-        fetchData(data_day, data_mon);
+        fetchData(data_day, data_mon); //DATA GET
         eventDate.innerHTML = date + " " + months[month] + " " + year;
       }
 
       //function update events when a day is active
-      function updateEvents(date) {
+      function updateEvents(data) {
         let events = "";
-        eventsArr.forEach((event) => {
-          if (
-            date === event.day &&
-            month + 1 === event.month &&
-            year === event.year
-          ) {
-            event.events.forEach((event) => {
-              events += `<div class="event">
+        data.forEach((event) => {
+          events += `<div class="event">
             <div class="title">
               <i class="fas fa-circle"></i>
-              <h3 class="event-title">${event.title}</h3>
+              <h3 class="event-title">${event.event}</h3>
             </div>
             <div class="event-time">
-              <span class="event-time">${event.time}</span>
+              <span class="event-time">${event.year}</span>
             </div>
         </div>`;
-            });
-          }
         });
+
         if (events === "") {
           events = `<div class="no-event">
             <h3>No Events</h3>
@@ -1030,6 +1036,12 @@
           title: eventTitle,
           time: timeFrom + " - " + timeTo,
         };
+
+        const historyEvent = {
+          title: eventTitle,
+          time: timeFrom + " - " + timeTo,
+        };
+
         console.log(newEvent);
         console.log(activeDay);
         let eventAdded = false;
